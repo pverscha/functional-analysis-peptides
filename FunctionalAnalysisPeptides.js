@@ -35,7 +35,16 @@ readInterface.on('line', function(line) {
     if (row[0] !== curPept) {
         if (curPept !== null) {
             if (m.size !== 0) {
-                writer.write(curPept + "\t" + JSON.stringify(m) + "\n");
+                const out = {
+                    num: {
+                        all: numProt,
+                        EC: numAnnotatedEC,
+                        GO: numAnnotatedGO,
+                        IPR: numAnnotatedInterPro
+                    },
+                    data: m
+                }
+                writer.write(curPept + "\t" + JSON.stringify(out) + "\n");
             }
         }
 
@@ -78,7 +87,16 @@ readInterface.on('line', function(line) {
 
 readInterface.on('close', function() {
     if (m.size !== 0) {
-        writer.write(curPept + "\t" + JSON.stringify(m) + "\n");
+        const out = {
+            num: {
+                all: numProt,
+                EC: numAnnotatedEC,
+                GO: numAnnotatedGO,
+                IPR: numAnnotatedInterPro
+            },
+            data: m
+        }
+        writer.write(curPept + "\t" + JSON.stringify(out) + "\n");
     }
 
     writer.end();
